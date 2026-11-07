@@ -1,0 +1,144 @@
+{
+  "learners": [
+    {
+      "id": "1",
+      "name": "Amara Okafor",
+      "email": "amara.okafor@email.com",
+      "cohort": "Cohort 04 · 2024",
+      "progress": 86,
+      "status": "Active",
+      "initials": "AO",
+      "color": "coral"
+    },
+    {
+      "id": "2",
+      "name": "Kwame Mensah",
+      "email": "kwame.mensah@email.com",
+      "cohort": "Cohort 04 · 2024",
+      "progress": 72,
+      "status": "Active",
+      "initials": "KM",
+      "color": "blue"
+    },
+    {
+      "id": "3",
+      "name": "Lerato Mokoena",
+      "email": "lerato.mokoena@email.com",
+      "cohort": "Cohort 03 · 2024",
+      "progress": 64,
+      "status": "At risk",
+      "initials": "LM",
+      "color": "purple"
+    },
+    {
+      "id": "4",
+      "name": "Daniel Williams",
+      "email": "daniel.williams@email.com",
+      "cohort": "Cohort 04 · 2024",
+      "progress": 93,
+      "status": "Completed",
+      "initials": "DW",
+      "color": "green"
+    },
+    {
+      "id": "CpJoF53jzBA",
+      "name": "Tlholo",
+      "email": "tlholo@gmail.com",
+      "cohort": "Cohort 05 · 2024",
+      "progress": 0,
+      "status": "Active",
+      "initials": "T",
+      "color": "blue"
+    }
+  ],
+  "activities": [
+    {
+      "id": "1",
+      "title": "The Water Cycle",
+      "type": "Simulation",
+      "subject": "Environmental Science",
+      "assigned": 48,
+      "completed": 38,
+      "due": "May 24, 2024",
+      "color": "mint",
+      "icon": "◌"
+    },
+    {
+      "id": "2",
+      "title": "Fractions & Decimals",
+      "type": "Quiz",
+      "subject": "Mathematics",
+      "assigned": 42,
+      "completed": 29,
+      "due": "May 27, 2024",
+      "color": "lavender",
+      "icon": "÷"
+    },
+    {
+      "id": "3",
+      "title": "Build a Simple Circuit",
+      "type": "Simulation",
+      "subject": "Physical Science",
+      "assigned": 36,
+      "completed": 18,
+      "due": "May 30, 2024",
+      "color": "peach",
+      "icon": "⌁"
+    },
+    {
+      "id": "Lcy0RYJFJkE",
+      "title": "Web Dev",
+      "subject": "Software engineering",
+      "type": "Quiz",
+      "assigned": 0,
+      "completed": 0,
+      "due": "2026-11-08",
+      "color": "lavender",
+      "icon": "÷"
+    }
+  ],
+  "users": [
+    {
+      "id": "admin-1",
+      "name": "Tebogo Ndlovu",
+      "email": "admin@learninghub.org",
+      "role": "admin",
+      "password": "admin123"
+    },
+    {
+      "id": "learner-1",
+      "name": "Amara Okafor",
+      "email": "learner@learninghub.org",
+      "role": "learner",
+      "learnerId": "1",
+      "password": "learner123"
+    }
+  ],
+  "completions": [
+    {
+      "id": "-wUXqEjChJM",
+      "learnerId": "1",
+      "activityId": "Lcy0RYJFJkE",
+      "completedAt": "2026-11-07T12:12:17.986Z"
+    },
+    {
+      "id": "4D1E-DREyD0",
+      "learnerId": "1",
+      "activityId": "1",
+      "completedAt": "2026-11-07T12:12:22.432Z"
+    },
+    {
+      "id": "IW5YjD-mCUg",
+      "learnerId": "1",
+      "activityId": "2",
+      "completedAt": "2026-11-07T12:12:26.088Z"
+    },
+    {
+      "id": "4h91fxXppro",
+      "learnerId": "1",
+      "activityId": "3",
+      "completedAt": "2026-11-07T12:12:27.207Z"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
