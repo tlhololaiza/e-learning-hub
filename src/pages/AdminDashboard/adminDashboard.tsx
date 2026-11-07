@@ -6,6 +6,7 @@ import { StatCard } from '../../components/Dashboard/StatCard'
 import type { Activity, DashboardData } from '../../utils/types'
 
 type AdminDashboardProps = {
+  userName: string
   data: DashboardData
   averageProgress: number
   completedActivities: number
@@ -13,10 +14,10 @@ type AdminDashboardProps = {
   onActivityClick: (activity: Activity) => void
 }
 
-export default function AdminDashboard({ data, averageProgress, completedActivities, onAddLearner, onActivityClick }: AdminDashboardProps) {
+export default function AdminDashboard({ userName, data, averageProgress, completedActivities, onAddLearner, onActivityClick }: AdminDashboardProps) {
   return (
     <div className="page-wrap">
-      <section className="welcome-row"><div><p className="eyebrow">WEDNESDAY, MAY 22, 2024</p><h1>Good morning, Tebogo <span className="wave">✦</span></h1><p className="subtitle">Here’s what’s happening across your learning space today.</p></div></section>
+      <section className="welcome-row"><div><p className="eyebrow">WEDNESDAY, MAY 22, 2024</p><h1>Good morning, {userName} <span className="wave">✦</span></h1><p className="subtitle">Here’s what’s happening across your learning space today.</p></div></section>
       <section className="hero-banner"><div className="hero-copy"><span className="hero-kicker">LEARNING AT A GLANCE</span><h2>Small steps, big progress.</h2><p>Keep your learners moving forward with meaningful activities.</p><button className="text-button" onClick={() => window.scrollTo({ top: 500, behavior: 'smooth' })}>Explore progress <span>→</span></button></div><div className="hero-graphic"><div className="graphic-sun" /><div className="graphic-card card-one"><span>✦</span><strong>+18%</strong><small>this month</small></div><div className="graphic-card card-two"><span className="mini-avatar">AO</span><small>Great work!</small></div><div className="graphic-line" /></div></section>
       <section className="section-heading"><div><p className="eyebrow">OVERVIEW</p><h2>At a glance</h2></div><span className="updated">Updated just now <i /></span></section>
       <section className="stats-grid"><StatCard label="Total learners" value={String(data.learners.length + 124)} change="+12.5%" icon="♙" tone="blue" /><StatCard label="Active activities" value={String(data.activities.length + 9)} change="+8.2%" icon="▤" tone="mint" /><StatCard label="Avg. completion" value={`${averageProgress}%`} change="+5.4%" icon="◒" tone="peach" /><StatCard label="Activities completed" value={String(completedActivities + 76)} change="+15.7%" icon="✓" tone="lavender" /></section>

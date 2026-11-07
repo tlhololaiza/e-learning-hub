@@ -16,6 +16,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       localStorage.setItem(SESSION_KEY, JSON.stringify(nextUser))
       setUser(nextUser)
     },
+    updateUser: (nextUser: AuthUser) => {
+      localStorage.setItem(SESSION_KEY, JSON.stringify(nextUser))
+      setUser(nextUser)
+    },
     logout: () => {
       localStorage.removeItem(SESSION_KEY)
       setUser(null)

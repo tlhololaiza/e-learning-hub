@@ -3,12 +3,14 @@ export type NavItem = 'Dashboard' | 'Learners' | 'Activities' | 'Reports' | 'Set
 type SidebarProps = {
   activeNav: NavItem
   learnerCount: number
-  role: 'admin' | 'learner'
+  user: { name: string; role: 'admin' | 'learner' }
   onNavigate: (item: NavItem) => void
   onLogout: () => void
 }
 
-export function Sidebar({ activeNav, learnerCount, role, onNavigate, onLogout }: SidebarProps) {
+export function Sidebar({ activeNav, learnerCount, user, onNavigate, onLogout }: SidebarProps) {
+  const { name, role } = user
+  const initials = name.split(' ').map((part) => part[0]).join('').slice(0, 2).toUpperCase()
   const items: NavItem[] = role === 'admin' ? ['Dashboard', 'Learners', 'Activities', 'Reports', 'Settings'] : ['Dashboard', 'Settings']
   const icons = { Dashboard: '⌂', Learners: '♙', Activities: '▤', Reports: '◒', Settings: '⚙' }
 
@@ -27,7 +29,7 @@ export function Sidebar({ activeNav, learnerCount, role, onNavigate, onLogout }:
       </nav>
       <div className="sidebar-bottom">
         <div className="help-card"><span className="help-icon">?</span><div><strong>Need a hand?</strong><small>Visit our help center</small></div><span className="arrow">→</span></div>
-        <div className="profile-row"><span className="avatar avatar-sand">{role === 'admin' ? 'TN' : 'AO'}</span><span><strong>{role === 'admin' ? 'Tebogo Ndlovu' : 'Amara Okafor'}</strong><small>{role === 'admin' ? 'Administrator' : 'Learner'}</small></span></div>
+        <div className="profile-row"><span className="avatar avatar-sand">{initials}</span><span><strong>{name}</strong><small>{role === 'admin' ? 'Administrator' : 'Learner'}</small></span></div>
         <button className="logout-button" onClick={onLogout}>↪ <span>Log out</span></button>
       </div>
     </aside>

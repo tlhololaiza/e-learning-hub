@@ -6,6 +6,7 @@ export type AuthUser = {
   email: string
   role: UserRole
   learnerId?: string
+  password?: string
 }
 
 export type Learner = {

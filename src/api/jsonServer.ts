@@ -28,8 +28,24 @@ export async function getUsers(): Promise<AuthUser[]> {
   return request<AuthUser[]>('users')
 }
 
+export async function createUser(user: AuthUser): Promise<AuthUser> {
+  return request<AuthUser>('users', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(user) })
+}
+
+export async function updateUser(user: AuthUser): Promise<AuthUser> {
+  return request<AuthUser>(`users/${user.id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(user) })
+}
+
+export async function removeUser(id: string): Promise<void> {
+  await request<unknown>(`users/${id}`, { method: 'DELETE' })
+}
+
 export async function createLearner(learner: Learner): Promise<Learner> {
   return request<Learner>('learners', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(learner) })
+}
+
+export async function updateLearner(learner: Learner): Promise<Learner> {
+  return request<Learner>(`learners/${learner.id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(learner) })
 }
 
 export async function removeLearner(id: string): Promise<void> {

@@ -4,6 +4,7 @@ import type { AuthUser } from '../utils/types'
 export type AuthContextValue = {
   user: AuthUser | null
   login: (user: AuthUser) => void
+  updateUser: (user: AuthUser) => void
   logout: () => void
 }
 

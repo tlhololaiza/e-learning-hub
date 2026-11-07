@@ -9,7 +9,7 @@ import { AppShell } from './components/Layout/AppShell'
 import Login from './pages/Login/login'
 import ProtectedRoute from './components/ProtectedRoute/protectedRoute'
 import { useAuth } from './redux/authSlice'
-import { createActivity, createLearner, removeActivity, removeLearner, saveCompletion } from './api/jsonServer'
+import { createActivity, createLearner, createUser, removeActivity, removeLearner, removeUser, saveCompletion, updateLearner, updateUser } from './api/jsonServer'
 import { demoData } from './data/demoData'
 import AdminDashboard from './pages/AdminDashboard/adminDashboard'
 import Activities from './pages/Activities/activities'
@@ -17,12 +17,12 @@ import LearnerDashboard from './pages/LearnerDasboard/learnerDashboard'
 import Learners from './pages/Learners/learners'
 import Reports from './pages/Reports/reports'
 import Settings from './pages/Settings/settings'
-import type { Activity, Completion, DashboardData, Learner } from './utils/types'
+import type { Activity, AuthUser, Completion, DashboardData, Learner } from './utils/types'
 import type { NavItem } from './components/Layout/Sidebar'
 
 function App() {
   const [activeNav, setActiveNav] = useState<NavItem>('Dashboard')
-  const { user, logout } = useAuth()
+  const { user, logout, updateUser: updateSessionUser } = useAuth()
   const [data, setData] = useState<DashboardData>(demoData)
   const [serviceMessage, setServiceMessage] = useState('Demo data · start JSON Server to sync')
   const [showLearnerForm, setShowLearnerForm] = useState(false)
@@ -53,10 +53,15 @@ function App() {
     event.preventDefault()
     const form = new FormData(event.currentTarget)
     const name = String(form.get('name') ?? 'New learner')
+    const email = String(form.get('email') ?? '').toLowerCase()
+    const password = String(form.get('password') ?? '')
     const initials = name.split(' ').map((part) => part[0]).join('').slice(0, 2).toUpperCase()
-    const learner: Learner = { id: String(Date.now()), name, email: String(form.get('email') ?? ''), cohort: 'Cohort 05 · 2024', progress: 0, status: 'Active', initials, color: 'blue' }
+    const learnerId = String(Date.now())
+    const learner: Learner = { id: learnerId, name, email, cohort: 'Cohort 05 · 2024', progress: 0, status: 'Active', initials, color: 'blue' }
+    const account = { id: `learner-${learnerId}`, name, email, role: 'learner' as const, learnerId, password }
     setData((current) => ({ ...current, learners: [learner, ...current.learners] }))
     void createLearner(learner).catch(() => undefined)
+    void createUser(account).catch(() => undefined)
     setShowLearnerForm(false)
   }
 
@@ -64,6 +69,7 @@ function App() {
     if (!window.confirm('Remove this learner?')) return
     setData((current) => ({ ...current, learners: current.learners.filter((learner) => learner.id !== id) }))
     void removeLearner(id).catch(() => undefined)
+    void removeUser(`learner-${id}`).catch(() => undefined)
   }
 
   function addActivity(activity: Activity) {
@@ -87,22 +93,37 @@ function App() {
     void saveCompletion(completion).catch(() => undefined)
   }
 
-  function renderPage() {
-    if (activeNav === 'Dashboard') return user?.role === 'admin'
-      ? <AdminDashboard data={data} averageProgress={averageProgress} completedActivities={completedActivities} onAddLearner={() => setShowLearnerForm(true)} onActivityClick={setSelectedActivity} />
-      : <LearnerDashboard data={data} completedIds={completedIds} onComplete={completeActivity} />
-    if (activeNav === 'Learners' && user?.role === 'admin') return <Learners learners={data.learners} onAdd={() => setShowLearnerForm(true)} onRemove={removeLearnerById} />
-    if (activeNav === 'Activities' && user?.role === 'admin') return <Activities activities={data.activities} onActivityClick={setSelectedActivity} onCreate={() => setShowActivityForm(true)} onRemove={removeActivityById} />
-    if (activeNav === 'Reports' && user?.role === 'admin') return <Reports learners={data.learners} averageProgress={averageProgress} completed={completedActivities} assigned={assignedActivities} />
-    return <Settings />
+  async function saveUserDetails(details: { name: string; email: string; password: string }) {
+    if (!user) return
+    const updatedUser = { ...user, name: details.name.trim(), email: details.email.trim().toLowerCase(), ...(details.password ? { password: details.password } : {}) }
+    await updateUser(updatedUser)
+    if (user.learnerId) {
+      const learner = data.learners.find((item) => item.id === user.learnerId)
+      if (learner) {
+        const updatedLearner = { ...learner, name: updatedUser.name, email: updatedUser.email, initials: updatedUser.name.split(' ').map((part) => part[0]).join('').slice(0, 2).toUpperCase() }
+        await updateLearner(updatedLearner)
+        setData((current) => ({ ...current, learners: current.learners.map((item) => item.id === updatedLearner.id ? updatedLearner : item) }))
+      }
+    }
+    updateSessionUser(updatedUser)
+  }
+
+  function renderPage(currentUser: AuthUser) {
+    if (activeNav === 'Dashboard') return currentUser.role === 'admin'
+      ? <AdminDashboard userName={currentUser.name} data={data} averageProgress={averageProgress} completedActivities={completedActivities} onAddLearner={() => setShowLearnerForm(true)} onActivityClick={setSelectedActivity} />
+      : <LearnerDashboard userName={currentUser.name} data={data} completedIds={completedIds} onComplete={completeActivity} />
+    if (activeNav === 'Learners' && currentUser.role === 'admin') return <Learners learners={data.learners} onAdd={() => setShowLearnerForm(true)} onRemove={removeLearnerById} />
+    if (activeNav === 'Activities' && currentUser.role === 'admin') return <Activities activities={data.activities} onActivityClick={setSelectedActivity} onCreate={() => setShowActivityForm(true)} onRemove={removeActivityById} />
+    if (activeNav === 'Reports' && currentUser.role === 'admin') return <Reports learners={data.learners} averageProgress={averageProgress} completed={completedActivities} assigned={assignedActivities} />
+    return <Settings user={currentUser} onSave={saveUserDetails} />
   }
 
   if (!user) return <Login />
 
   return (
     <ProtectedRoute>
-      <AppShell activeNav={activeNav} learnerCount={data.learners.length} serviceMessage={serviceMessage} role={user.role} onNavigate={setActiveNav} onLogout={logout}>
-        {renderPage()}
+      <AppShell activeNav={activeNav} learnerCount={data.learners.length} serviceMessage={serviceMessage} user={user} onNavigate={setActiveNav} onLogout={logout}>
+        {renderPage(user)}
         {user.role === 'admin' && showLearnerForm && <LearnerModal onClose={() => setShowLearnerForm(false)} onSubmit={addLearner} />}
         {user.role === 'admin' && showActivityForm && <ActivityFormModal onClose={() => setShowActivityForm(false)} onSubmit={addActivity} />}
         {selectedActivity && <ActivityModal activity={selectedActivity} onClose={() => setSelectedActivity(null)} />}
