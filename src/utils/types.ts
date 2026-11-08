@@ -35,6 +35,7 @@ export type Activity = {
 export type DashboardData = {
   learners: Learner[]
   activities: Activity[]
+  completions: Completion[]
 }
 
 export type Completion = {

@@ -9,18 +9,20 @@ async function request<T>(path: string, options?: RequestInit): Promise<T> {
 }
 
 export async function getDashboardData(): Promise<DashboardData> {
-  const [learnersResponse, activitiesResponse] = await Promise.all([
+  const [learnersResponse, activitiesResponse, completionsResponse] = await Promise.all([
     fetch(`${API_URL}/learners`),
     fetch(`${API_URL}/activities`),
+    fetch(`${API_URL}/completions`),
   ])
 
-  if (!learnersResponse.ok || !activitiesResponse.ok) {
+  if (!learnersResponse.ok || !activitiesResponse.ok || !completionsResponse.ok) {
     throw new Error('The local data service returned an error.')
   }
 
   return {
     learners: await learnersResponse.json(),
     activities: await activitiesResponse.json(),
+    completions: await completionsResponse.json(),
   }
 }
 
