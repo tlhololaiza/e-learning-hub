@@ -99,14 +99,20 @@ function App() {
   async function saveUserDetails(details: { name: string; email: string; password: string }) {
     if (!user) return
     const updatedUser = { ...user, name: details.name.trim(), email: details.email.trim().toLowerCase(), ...(details.password ? { password: details.password } : {}) }
-    await updateUser(updatedUser)
-    if (user.learnerId) {
-      const learner = data.learners.find((item) => item.id === user.learnerId)
-      if (learner) {
-        const updatedLearner = { ...learner, name: updatedUser.name, email: updatedUser.email, initials: updatedUser.name.split(' ').map((part) => part[0]).join('').slice(0, 2).toUpperCase() }
-        await updateLearner(updatedLearner)
-        setData((current) => ({ ...current, learners: current.learners.map((item) => item.id === updatedLearner.id ? updatedLearner : item) }))
-      }
+    const learner = user.role === 'learner'
+      ? data.learners.find((item) => item.id === user.learnerId || item.id === user.id || item.email.toLowerCase() === user.email.toLowerCase())
+      : undefined
+    const updatedLearner = learner
+      ? { ...learner, name: updatedUser.name, email: updatedUser.email, initials: updatedUser.name.split(' ').map((part) => part[0]).join('').slice(0, 2).toUpperCase() }
+      : undefined
+
+    await Promise.all([
+      updateUser(updatedUser),
+      updatedLearner ? updateLearner(updatedLearner) : Promise.resolve(),
+    ])
+
+    if (updatedLearner) {
+      setData((current) => ({ ...current, learners: current.learners.map((item) => item.id === updatedLearner.id ? updatedLearner : item) }))
     }
     updateSessionUser(updatedUser)
   }

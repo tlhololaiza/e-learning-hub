@@ -29,6 +29,16 @@
       "status": "Active",
       "initials": "L",
       "color": "blue"
+    },
+    {
+      "id": "LEvP-GzcgvM",
+      "name": "Ofentse",
+      "email": "fentse@gmail.com",
+      "cohort": "Cohort 05 · 2026",
+      "progress": 0,
+      "status": "Active",
+      "initials": "O",
+      "color": "blue"
     }
   ],
   "activities": [
@@ -64,6 +74,17 @@
       "due": "May 30, 2026",
       "color": "peach",
       "icon": "⌁"
+    },
+    {
+      "id": "edLNLu00NOU",
+      "title": "Web development",
+      "subject": "Software engeneering",
+      "type": "Quiz",
+      "assigned": 0,
+      "completed": 0,
+      "due": "2026-11-09",
+      "color": "lavender",
+      "icon": "÷"
     }
   ],
   "users": [
@@ -89,6 +110,14 @@
       "role": "learner",
       "learnerId": "1794060485036",
       "password": "password"
+    },
+    {
+      "id": "82OwjXRM6lE",
+      "name": "Ofentse",
+      "email": "fentse@gmail.com",
+      "role": "learner",
+      "learnerId": "1794158650259",
+      "password": "password"
     }
   ],
   "completions": [
@@ -109,6 +138,12 @@
       "learnerId": "1",
       "activityId": "2",
       "completedAt": "2026-11-07T12:12:26.088Z"
+    },
+    {
+      "id": "nCMMs-CIKpI",
+      "learnerId": "1794158650259",
+      "activityId": "1794158714133",
+      "completedAt": "2026-11-08T17:26:39.482Z"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
