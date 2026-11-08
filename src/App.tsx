@@ -24,6 +24,7 @@ function App() {
   const [activeNav, setActiveNav] = useState<NavItem>('Dashboard')
   const { user, logout, updateUser: updateSessionUser } = useAuth()
   const [data, setData] = useState<DashboardData>(demoData)
+  const [isLiveData, setIsLiveData] = useState(false)
   const [serviceMessage, setServiceMessage] = useState('Demo data · start JSON Server to sync')
   const [showLearnerForm, setShowLearnerForm] = useState(false)
   const [selectedActivity, setSelectedActivity] = useState<Activity | null>(null)
@@ -36,18 +37,31 @@ function App() {
       .then((serverData) => {
         if (active && serverData.learners.length > 0) {
           setData(serverData)
+          setIsLiveData(true)
+          if (user?.role === 'learner') {
+            const learner = serverData.learners.find((item) => item.id === user.learnerId || item.id === user.id || item.email.toLowerCase() === user.email.toLowerCase())
+            const serverCompletedIds = serverData.completions
+              .filter((completion) => completion.learnerId === learner?.id && completion.activityId)
+              .map((completion) => completion.activityId)
+            setCompletedIds([...new Set(serverCompletedIds)])
+          }
           setServiceMessage('Live data connected')
         }
       })
       .catch(() => {
-        if (active) setServiceMessage('Demo data · JSON Server unavailable')
+        if (active) {
+          setIsLiveData(false)
+          setServiceMessage('Demo data · JSON Server unavailable')
+        }
       })
     return () => { active = false }
-  }, [])
+  }, [user])
 
   const completedActivities = useMemo(() => data.activities.reduce((total, item) => total + item.completed, 0), [data.activities])
-  const assignedActivities = useMemo(() => data.activities.reduce((total, item) => total + item.assigned, 0), [data.activities])
   const averageProgress = data.learners.length ? Math.round(data.learners.reduce((total, learner) => total + learner.progress, 0) / data.learners.length) : 0
+  const currentLearner = useMemo(() => user?.role === 'learner'
+    ? data.learners.find((item) => item.id === user.learnerId || item.id === user.id || item.email.toLowerCase() === user.email.toLowerCase())
+    : undefined, [data.learners, user])
 
   function addLearner(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -120,10 +134,10 @@ function App() {
   function renderPage(currentUser: AuthUser) {
     if (activeNav === 'Dashboard') return currentUser.role === 'admin'
       ? <AdminDashboard userName={currentUser.name} data={data} averageProgress={averageProgress} completedActivities={completedActivities} onAddLearner={() => setShowLearnerForm(true)} onRemoveLearner={removeLearnerById} onActivityClick={setSelectedActivity} onViewReports={() => setActiveNav('Reports')} />
-      : <LearnerDashboard userName={currentUser.name} data={data} completedIds={completedIds} onStart={setSelectedActivity} />
+      : <LearnerDashboard userName={currentUser.name} progress={currentLearner?.progress ?? 0} data={data} completedIds={completedIds} onStart={setSelectedActivity} />
     if (activeNav === 'Learners' && currentUser.role === 'admin') return <Learners learners={data.learners} onAdd={() => setShowLearnerForm(true)} onRemove={removeLearnerById} />
     if (activeNav === 'Activities' && currentUser.role === 'admin') return <Activities activities={data.activities} onActivityClick={setSelectedActivity} onCreate={() => setShowActivityForm(true)} onRemove={removeActivityById} />
-    if (activeNav === 'Reports' && currentUser.role === 'admin') return <Reports learners={data.learners} averageProgress={averageProgress} completed={completedActivities} assigned={assignedActivities} />
+    if (activeNav === 'Reports' && currentUser.role === 'admin') return <Reports data={data} isLive={isLiveData} />
     return <Settings user={currentUser} onSave={saveUserDetails} />
   }
 

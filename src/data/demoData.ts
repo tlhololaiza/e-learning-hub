@@ -12,4 +12,5 @@ export const demoData: DashboardData = {
     { id: '2', title: 'Fractions & Decimals', type: 'Quiz', subject: 'Mathematics', assigned: 42, completed: 29, due: 'May 27, 2026', color: 'lavender', icon: '÷' },
     { id: '3', title: 'Build a Simple Circuit', type: 'Simulation', subject: 'Physical Science', assigned: 36, completed: 18, due: 'May 30, 2026', color: 'peach', icon: '⌁' },
   ],
+  completions: [],
 }

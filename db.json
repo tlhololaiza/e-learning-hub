@@ -2,23 +2,13 @@
   "learners": [
     {
       "id": "1",
-      "name": "Bontle Tshwane",
+      "name": "Bontle Motlhamme",
       "email": "learner@learninghub.org",
       "cohort": "Cohort 04 · 2026",
       "progress": 86,
       "status": "Active",
-      "initials": "BT",
+      "initials": "BM",
       "color": "coral"
-    },
-    {
-      "id": "CpJoF53jzBA",
-      "name": "Tlholo",
-      "email": "tlholo@gmail.com",
-      "cohort": "Cohort 05 · 2026",
-      "progress": 0,
-      "status": "Active",
-      "initials": "T",
-      "color": "blue"
     },
     {
       "id": "P_MDNIWTRVI",
@@ -31,13 +21,23 @@
       "color": "blue"
     },
     {
-      "id": "LEvP-GzcgvM",
-      "name": "Ofentse",
-      "email": "fentse@gmail.com",
+      "id": "IhP0yIswdYc",
+      "name": "Tlholo Tshwane",
+      "email": "tlholo@gmail.com",
       "cohort": "Cohort 05 · 2026",
       "progress": 0,
       "status": "Active",
-      "initials": "O",
+      "initials": "TT",
+      "color": "blue"
+    },
+    {
+      "id": "bUBUJ-hcJcY",
+      "name": "Ofentse Moatshe",
+      "email": "fenste@gmail.com",
+      "cohort": "Cohort 05 · 2026",
+      "progress": 0,
+      "status": "Active",
+      "initials": "OM",
       "color": "blue"
     }
   ],
@@ -76,9 +76,9 @@
       "icon": "⌁"
     },
     {
-      "id": "edLNLu00NOU",
-      "title": "Web development",
-      "subject": "Software engeneering",
+      "id": "z6JqbkJA6Jc",
+      "title": "Web Development",
+      "subject": "Software",
       "type": "Quiz",
       "assigned": 0,
       "completed": 0,
@@ -97,19 +97,11 @@
     },
     {
       "id": "learner-1",
-      "name": "Bontle Tshwane",
+      "name": "Bontle Motlhamme",
       "email": "learner@learninghub.org",
       "role": "learner",
       "learnerId": "1",
       "password": "learner123"
-    },
-    {
-      "id": "ui5Ud7MoQMU",
-      "name": "Tlholo Tshwane",
-      "email": "tlholo1@gmail.com",
-      "role": "learner",
-      "learnerId": "1794060485036",
-      "password": "password"
     },
     {
       "id": "82OwjXRM6lE",
@@ -117,6 +109,22 @@
       "email": "fentse@gmail.com",
       "role": "learner",
       "learnerId": "1794158650259",
+      "password": "password"
+    },
+    {
+      "id": "230M1OhBqns",
+      "name": "Tlholo Tshwane",
+      "email": "tlholo@gmail.com",
+      "role": "learner",
+      "learnerId": "1794163318745",
+      "password": "password"
+    },
+    {
+      "id": "AquEu1ryY3s",
+      "name": "Ofentse Moatshe",
+      "email": "fenste@gmail.com",
+      "role": "learner",
+      "learnerId": "1794163351108",
       "password": "password"
     }
   ],
@@ -144,6 +152,54 @@
       "learnerId": "1794158650259",
       "activityId": "1794158714133",
       "completedAt": "2026-11-08T17:26:39.482Z"
+    },
+    {
+      "id": "U6unltqmlnE",
+      "learnerId": "1794158650259",
+      "activityId": null,
+      "completedAt": "2026-11-08T17:48:45.117Z"
+    },
+    {
+      "id": "3aylnXX1oLU",
+      "learnerId": "1794158650259",
+      "activityId": null,
+      "completedAt": "2026-11-08T18:08:52.842Z"
+    },
+    {
+      "id": "yLHA61ymc4A",
+      "learnerId": "1794162163118",
+      "activityId": null,
+      "completedAt": "2026-11-08T18:24:42.897Z"
+    },
+    {
+      "id": "_1oKKiouz_4",
+      "learnerId": "1794162163118",
+      "activityId": "2",
+      "completedAt": "2026-11-08T18:24:56.444Z"
+    },
+    {
+      "id": "_0oNt2pCD3g",
+      "learnerId": "1794163318745",
+      "activityId": "z6JqbkJA6Jc",
+      "completedAt": "2026-11-08T18:44:06.858Z"
+    },
+    {
+      "id": "DaB3bJ41rT4",
+      "learnerId": "1794163318745",
+      "activityId": "1",
+      "completedAt": "2026-11-08T18:44:28.990Z"
+    },
+    {
+      "id": "MNOUJIy2J_E",
+      "learnerId": "1794163351108",
+      "activityId": "2",
+      "completedAt": "2026-11-08T18:45:10.868Z"
+    },
+    {
+      "id": "hozTHrWAh2k",
+      "learnerId": "1794163351108",
+      "activityId": "z6JqbkJA6Jc",
+      "completedAt": "2026-11-08T18:45:17.814Z"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
