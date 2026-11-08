@@ -9,7 +9,7 @@ import { AppShell } from './components/Layout/AppShell'
 import Login from './pages/Login/login'
 import ProtectedRoute from './components/ProtectedRoute/protectedRoute'
 import { useAuth } from './redux/authSlice'
-import { createActivity, createLearner, createUser, removeActivity, removeLearner, removeUser, saveCompletion, updateLearner, updateUser } from './api/jsonServer'
+import { createActivity, createLearner, createUser, removeActivity, removeLearner, removeLearnerAccount, saveCompletion, updateLearner, updateUser } from './api/jsonServer'
 import { demoData } from './data/demoData'
 import AdminDashboard from './pages/AdminDashboard/adminDashboard'
 import Activities from './pages/Activities/activities'
@@ -57,7 +57,7 @@ function App() {
     const password = String(form.get('password') ?? '')
     const initials = name.split(' ').map((part) => part[0]).join('').slice(0, 2).toUpperCase()
     const learnerId = String(Date.now())
-    const learner: Learner = { id: learnerId, name, email, cohort: 'Cohort 05 · 2024', progress: 0, status: 'Active', initials, color: 'blue' }
+    const learner: Learner = { id: learnerId, name, email, cohort: 'Cohort 05 · 2026', progress: 0, status: 'Active', initials, color: 'blue' }
     const account = { id: `learner-${learnerId}`, name, email, role: 'learner' as const, learnerId, password }
     setData((current) => ({ ...current, learners: [learner, ...current.learners] }))
     void createLearner(learner).catch(() => undefined)
@@ -65,11 +65,14 @@ function App() {
     setShowLearnerForm(false)
   }
 
-  function removeLearnerById(id: string) {
+  async function removeLearnerById(id: string) {
     if (!window.confirm('Remove this learner?')) return
     setData((current) => ({ ...current, learners: current.learners.filter((learner) => learner.id !== id) }))
-    void removeLearner(id).catch(() => undefined)
-    void removeUser(`learner-${id}`).catch(() => undefined)
+    try {
+      await Promise.all([removeLearner(id), removeLearnerAccount(id)])
+    } catch {
+      setServiceMessage('Learner removed locally · JSON Server sync failed')
+    }
   }
 
   function addActivity(activity: Activity) {
@@ -110,8 +113,8 @@ function App() {
 
   function renderPage(currentUser: AuthUser) {
     if (activeNav === 'Dashboard') return currentUser.role === 'admin'
-      ? <AdminDashboard userName={currentUser.name} data={data} averageProgress={averageProgress} completedActivities={completedActivities} onAddLearner={() => setShowLearnerForm(true)} onActivityClick={setSelectedActivity} />
-      : <LearnerDashboard userName={currentUser.name} data={data} completedIds={completedIds} onComplete={completeActivity} />
+      ? <AdminDashboard userName={currentUser.name} data={data} averageProgress={averageProgress} completedActivities={completedActivities} onAddLearner={() => setShowLearnerForm(true)} onRemoveLearner={removeLearnerById} onActivityClick={setSelectedActivity} onViewReports={() => setActiveNav('Reports')} />
+      : <LearnerDashboard userName={currentUser.name} data={data} completedIds={completedIds} onStart={setSelectedActivity} />
     if (activeNav === 'Learners' && currentUser.role === 'admin') return <Learners learners={data.learners} onAdd={() => setShowLearnerForm(true)} onRemove={removeLearnerById} />
     if (activeNav === 'Activities' && currentUser.role === 'admin') return <Activities activities={data.activities} onActivityClick={setSelectedActivity} onCreate={() => setShowActivityForm(true)} onRemove={removeActivityById} />
     if (activeNav === 'Reports' && currentUser.role === 'admin') return <Reports learners={data.learners} averageProgress={averageProgress} completed={completedActivities} assigned={assignedActivities} />
@@ -126,7 +129,7 @@ function App() {
         {renderPage(user)}
         {user.role === 'admin' && showLearnerForm && <LearnerModal onClose={() => setShowLearnerForm(false)} onSubmit={addLearner} />}
         {user.role === 'admin' && showActivityForm && <ActivityFormModal onClose={() => setShowActivityForm(false)} onSubmit={addActivity} />}
-        {selectedActivity && <ActivityModal activity={selectedActivity} onClose={() => setSelectedActivity(null)} />}
+        {selectedActivity && <ActivityModal key={`${selectedActivity.id}-${user.role}`} activity={selectedActivity} learnerMode={user.role === 'learner'} onComplete={user.role === 'learner' ? () => completeActivity(selectedActivity.id) : undefined} onClose={() => setSelectedActivity(null)} />}
       </AppShell>
     </ProtectedRoute>
   )
