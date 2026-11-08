@@ -1,75 +1,94 @@
-# React + TypeScript + Vite
+# E-Learning Hub
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+E-Learning Hub is a learning management dashboard for institutions to manage learners, activities, progress, and completion reports.
 
-Currently, two official plugins are available:
+Administrators can:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- View dashboard statistics based on the local data service.
+- Add and remove learners.
+- Search learners by name, email, or cohort.
+- Create and remove learning activities.
+- View reports for learner progress and activity completion.
 
-## React Compiler
+Learners can:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- View their assigned activities.
+- Complete activities.
+- Track their progress and completion rate.
+- Update their name, email address, and password.
 
-## Expanding the ESLint configuration
+## Technology
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- React 19
+- TypeScript
+- Vite
+- JSON Server for local REST API data
+- ESLint
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+The application uses [`db.json`](./db.json) as its local data store. The frontend reads learners, activities, users, and completions from JSON Server at `http://localhost:3001`.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Requirements
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- Node.js 18 or newer
+- npm
 
-```
+## Local setup
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+1. Clone the repository and open the project directory:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+   ```bash
+   git clone <repository-url>
+   cd e-learning-hub
+   ```
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+2. Install dependencies:
 
-```
+   ```bash
+   npm install
+   ```
+
+3. Start JSON Server in one terminal:
+
+   ```bash
+   npm run server
+   ```
+
+   This starts the API at `http://localhost:3001` and watches [`db.json`](./db.json).
+
+4. Start the Vite development server in a second terminal:
+
+   ```bash
+   npm run dev
+   ```
+
+5. Open the URL shown by Vite, usually `http://localhost:5173`.
+
+Run both the API and frontend servers during development so that live learner, activity, user, and completion data is available.
+
+## Demo accounts
+
+These accounts are included in `db.json`:
+
+| Role | Email | Password |
+|---|---|---|
+| Admin | `admin@learninghub.org` | `admin123` |
+| Learner | `learner@learninghub.org` | `learner123` |
+
+When JSON Server is unavailable, the application can still be opened with the demo accounts, but changes and live reports cannot be synchronized with `db.json`.
+
+## Available scripts
+
+| Command | Description |
+|---|---|
+| `npm run dev` | Start the Vite development server |
+| `npm run server` | Start JSON Server on port 3001 |
+| `npm run build` | Type-check and create a production build |
+| `npm run lint` | Run ESLint |
+| `npm run preview` | Preview the production build |
+
+## Data and development notes
+
+- Edit [`db.json`](./db.json) to change the seeded local data.
+- JSON Server writes create, update, and delete operations back to `db.json`.
+- The frontend expects the API at `http://localhost:3001`.
+- Do not use real passwords or sensitive personal data in the local seed file.
