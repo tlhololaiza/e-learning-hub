@@ -40,6 +40,12 @@ export async function removeUser(id: string): Promise<void> {
   await request<unknown>(`users/${id}`, { method: 'DELETE' })
 }
 
+export async function removeLearnerAccount(learnerId: string): Promise<void> {
+  const users = await getUsers()
+  const learnerAccounts = users.filter((user) => user.role === 'learner' && user.learnerId === learnerId)
+  await Promise.all(learnerAccounts.map((user) => removeUser(user.id)))
+}
+
 export async function createLearner(learner: Learner): Promise<Learner> {
   return request<Learner>('learners', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(learner) })
 }

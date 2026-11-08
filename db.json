@@ -2,62 +2,42 @@
   "learners": [
     {
       "id": "1",
-      "name": "Amara Okafor",
-      "email": "amara.okafor@email.com",
-      "cohort": "Cohort 04 · 2024",
+      "name": "Bontle Tshwane",
+      "email": "learner@learninghub.org",
+      "cohort": "Cohort 04 · 2026",
       "progress": 86,
       "status": "Active",
-      "initials": "AO",
+      "initials": "BT",
       "color": "coral"
-    },
-    {
-      "id": "2",
-      "name": "Kwame Mensah",
-      "email": "kwame.mensah@email.com",
-      "cohort": "Cohort 04 · 2024",
-      "progress": 72,
-      "status": "Active",
-      "initials": "KM",
-      "color": "blue"
-    },
-    {
-      "id": "3",
-      "name": "Lerato Mokoena",
-      "email": "lerato.mokoena@email.com",
-      "cohort": "Cohort 03 · 2024",
-      "progress": 64,
-      "status": "At risk",
-      "initials": "LM",
-      "color": "purple"
-    },
-    {
-      "id": "4",
-      "name": "Daniel Williams",
-      "email": "daniel.williams@email.com",
-      "cohort": "Cohort 04 · 2024",
-      "progress": 93,
-      "status": "Completed",
-      "initials": "DW",
-      "color": "green"
     },
     {
       "id": "CpJoF53jzBA",
       "name": "Tlholo",
       "email": "tlholo@gmail.com",
-      "cohort": "Cohort 05 · 2024",
+      "cohort": "Cohort 05 · 2026",
       "progress": 0,
       "status": "Active",
       "initials": "T",
       "color": "blue"
     },
     {
-      "id": "DxenzvNfd-U",
-      "name": "Tlholo",
-      "email": "tlholo1@gmail.com",
-      "cohort": "Cohort 05 · 2024",
+      "id": "P_MDNIWTRVI",
+      "name": "Lindi",
+      "email": "l@gmail.com",
+      "cohort": "Cohort 05 · 2026",
       "progress": 0,
       "status": "Active",
-      "initials": "T",
+      "initials": "L",
+      "color": "blue"
+    },
+    {
+      "id": "LEvP-GzcgvM",
+      "name": "Ofentse",
+      "email": "fentse@gmail.com",
+      "cohort": "Cohort 05 · 2026",
+      "progress": 0,
+      "status": "Active",
+      "initials": "O",
       "color": "blue"
     }
   ],
@@ -69,7 +49,7 @@
       "subject": "Environmental Science",
       "assigned": 48,
       "completed": 38,
-      "due": "May 24, 2024",
+      "due": "May 24, 2026",
       "color": "mint",
       "icon": "◌"
     },
@@ -80,7 +60,7 @@
       "subject": "Mathematics",
       "assigned": 42,
       "completed": 29,
-      "due": "May 27, 2024",
+      "due": "May 27, 2026",
       "color": "lavender",
       "icon": "÷"
     },
@@ -91,18 +71,18 @@
       "subject": "Physical Science",
       "assigned": 36,
       "completed": 18,
-      "due": "May 30, 2024",
+      "due": "May 30, 2026",
       "color": "peach",
       "icon": "⌁"
     },
     {
-      "id": "Lcy0RYJFJkE",
-      "title": "Web Dev",
-      "subject": "Software engineering",
+      "id": "edLNLu00NOU",
+      "title": "Web development",
+      "subject": "Software engeneering",
       "type": "Quiz",
       "assigned": 0,
       "completed": 0,
-      "due": "2026-11-08",
+      "due": "2026-11-09",
       "color": "lavender",
       "icon": "÷"
     }
@@ -117,7 +97,7 @@
     },
     {
       "id": "learner-1",
-      "name": "Amara Okafor",
+      "name": "Bontle Tshwane",
       "email": "learner@learninghub.org",
       "role": "learner",
       "learnerId": "1",
@@ -130,13 +110,21 @@
       "role": "learner",
       "learnerId": "1794060485036",
       "password": "password"
+    },
+    {
+      "id": "82OwjXRM6lE",
+      "name": "Ofentse",
+      "email": "fentse@gmail.com",
+      "role": "learner",
+      "learnerId": "1794158650259",
+      "password": "password"
     }
   ],
   "completions": [
     {
       "id": "-wUXqEjChJM",
       "learnerId": "1",
-      "activityId": "Lcy0RYJFJkE",
+      "activityId": null,
       "completedAt": "2026-11-07T12:12:17.986Z"
     },
     {
@@ -152,10 +140,10 @@
       "completedAt": "2026-11-07T12:12:26.088Z"
     },
     {
-      "id": "4h91fxXppro",
-      "learnerId": "1",
-      "activityId": "3",
-      "completedAt": "2026-11-07T12:12:27.207Z"
+      "id": "nCMMs-CIKpI",
+      "learnerId": "1794158650259",
+      "activityId": "1794158714133",
+      "completedAt": "2026-11-08T17:26:39.482Z"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
